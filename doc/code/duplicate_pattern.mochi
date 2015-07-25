@@ -1,0 +1,9 @@
+# file duplicate_pattern.mochi
+
+def duplicate_pattern:
+    x, y: 'match 1'
+    a, b: 'match 2, never being reached'
+
+print(duplicate_pattern(1, 2))
+print(duplicate_pattern(10, 20))
+print(duplicate_pattern(100, 200))

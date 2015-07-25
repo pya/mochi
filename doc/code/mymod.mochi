@@ -1,0 +1,6 @@
+# file mymod.mochi
+
+def add(a, b):
+    a + b
+
+print(add(2, 3))

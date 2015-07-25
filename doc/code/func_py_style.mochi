@@ -1,0 +1,18 @@
+# file func_py_style.mochi
+
+def truncate(value, limit):
+    if value < 0:
+        0
+    elif value > limit:
+        limit
+    else:
+        value
+
+print('limit: 10')
+print('value: 7', 'result:', truncate(7, 10))
+print('value: -7', 'result:',truncate(-7, 10))
+print('value: -17', 'result:',truncate(17, 10))
+
+# vals = [7, -7, 17]
+# show = -> print('value: {:-4d} result: {:4d}'.format($1, truncate($1, 10)))
+# vals |> map(show) |> pvector()

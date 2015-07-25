@@ -1,0 +1,13 @@
+# file func_haskell_style.mochi
+
+def show_num_args:
+    x: 'one arg: {}'.format(x)
+    x, y: 'two args: {}, {}'.format(x, y)
+    x, y, z: 'three args: {}, {}, {}'.format(x, y, z)
+    &n: '{} args'.format(len(n)) if n else 'no args'
+
+print(show_num_args())
+print(show_num_args(10))
+print(show_num_args(10, 20))
+print(show_num_args(10, 20, 30))
+print(show_num_args(1, 2, 3, 4, 5))

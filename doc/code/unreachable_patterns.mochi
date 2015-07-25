@@ -1,0 +1,15 @@
+# file unreachable_patterns.mochi
+
+def show_num_args:
+    &n: '{} args'.format(len(n)) if n else 'no args'
+    # all following patterns will never be reached
+    x: 'one arg: {}'.format(x)
+    x, y: 'two args: {}, {}'.format(x, y)
+    x, y, z: 'three args: {}, {}, {}'.format(x, y, z)
+
+
+print(show_num_args())
+print(show_num_args(10))
+print(show_num_args(10, 20))
+print(show_num_args(10, 20, 30))
+print(show_num_args(1, 2, 3, 4, 5))
