@@ -36,7 +36,7 @@ def factorial:
     n: factorial(n, 1)
     0, acc: acc
     n, acc: factorial(n - 1, acc * n)
-    
+
 factorial(10000)
 # => 28462596809170545189064132121198688...
 ```
@@ -193,6 +193,7 @@ aif([10, 20], first(it), "empty")
 - msgpack-python >= 0.4.6
 - kazoo >= 2.0
 - typeannotations >= 0.1.0
+- astunparse>=1.2.2
 
 
 ## Installation
@@ -201,7 +202,7 @@ $ pip3 install mochi
 $ pip3 install flask Flask-RESTful Pillow RxPY  # to run the examples
 ```
 
-Th error of the following may occur when you run Mochi on PyPy.
+The following may occur when you run Mochi on PyPy.
 ```
 ImportError: Importing zmq.backend.cffi failed with version mismatch, 0.8.2 != 0.9.2
 ```
@@ -381,7 +382,7 @@ match nums([1, 2, 3]):
 
 Positive = predicate(-> $1 > 0)
 Even = predicate(-> $1 % 2 == 0)
-EvenAndPositive = predicate(-> ($1 % 2 == 0) and ($1 >= 0)) 
+EvenAndPositive = predicate(-> ($1 % 2 == 0) and ($1 >= 0))
 
 match 10:
     EvenAndPositive n: str(n) + ':Even and Positive'
@@ -526,7 +527,7 @@ show(1.0, 'msg')
 FileMode = options('r', 'w', 'a', 'r+', 'w+', 'a+')
 
 def open_file:
-    str path, FileMode mode: 
+    str path, FileMode mode:
         open(path, mode)
     str path:
         open(path, 'r')
@@ -559,7 +560,7 @@ pvector(map(-> $1 * 2, [1, 2, 3]))
 # => pvector([2, 4, 6])
 ```
 
-### Pipeline operator 
+### Pipeline operator
 ```python
 add = -> $1 + $2
 2 |> add(10) |> add(12)
@@ -645,7 +646,7 @@ foreach([1, 2, 3]) @ (item) ->
 ```python
 def foo(a, b, c):
     a + b + c
-    
+
 a = 1
 b = 2
 c = 3
@@ -704,10 +705,10 @@ x
 ```python
 module Math:
     export add, sub
-    
+
     def add(x, y):
         x + y
-    
+
     def sub(x, y):
         x - y
 
