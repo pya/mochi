@@ -1,0 +1,12 @@
+# file: match_number.mochi
+
+from numbers import Number
+
+def match_number:
+    Number x: 'number'
+    &x: 'unknown'
+
+
+print('1', match_number(1))
+print('1.5', match_number(1.5))
+print('a', match_number('a'))

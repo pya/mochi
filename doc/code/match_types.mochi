@@ -1,0 +1,13 @@
+# file: match_types.mochi
+
+def match_types:
+    int x, str y: 'int str'
+    float x, int y: 'float int'
+    str x, float y: 'str float'
+    PVector pv: 'PVector'
+    &z: 'unknown'
+
+print(10, 'abc', match_types(10, 'abc'))
+print(10.5, 3, match_types(10.5, 3))
+print('a', 'b', match_types('a', 'b'))
+print([1, 2, 3], match_types([1, 2, 3]))

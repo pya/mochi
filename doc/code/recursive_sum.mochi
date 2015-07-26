@@ -1,0 +1,8 @@
+# file: recursive_sum.mochi
+
+def sum_:
+    [head, &tail]: head + sum_(tail)
+    []: 0
+
+print(sum_([10, 20, 30.5]))
+print(sum_([]))

@@ -61,4 +61,4 @@ mochi.wpu
 # Temp
 tmp/
 temp/
-doc/code/mymod.py
+doc/code/*.py

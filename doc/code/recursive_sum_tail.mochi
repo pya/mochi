@@ -1,0 +1,31 @@
+# file: recursive_sum_tail.mochi
+
+def sum_:
+    [head, &tail]: sum_(head, tail)
+    acc, [head, &tail]: sum_(head + acc, tail)
+    acc, []: acc
+    []: 0
+
+
+print(sum_([10, 20, 30.5]))
+print(sum_([]))
+print(sum(range(10000)))
+
+from timeit import default_timer
+dft = default_timer
+
+numbers = range(int('1' + '0' * 6))
+
+start = dft()
+f_sum = sum_(numbers)
+f_time = dft() - start
+
+start = dft()
+b_sum = sum(numbers)
+b_time = dft() - start
+
+assert f_sum == b_sum
+
+print(f_time)
+print(b_time)
+print(f_time / b_time)

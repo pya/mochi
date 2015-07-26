@@ -18,7 +18,7 @@ Install the Mochi kernel **after**  you installed Mochi with::
     pip install mochi-kernel
 
 The kernel dose not work with work with PyPy3 yet.
-Currently (July 2015) the currently PyPy3 release is 3.2 but the
+Currently (July 2015) the latest PyPy3 release supports Python 3.2 but the
 Notebook requires at least Python 3.3.
 
 First Steps
@@ -112,7 +112,7 @@ Working with Functions
 Python-style Functions
 ++++++++++++++++++++++
 
-You can define function very similarity as in Python:
+You can define functions very similarity as in Python:
 
 .. literalinclude:: code/mymod.mochi
    :language: python
@@ -154,7 +154,7 @@ prints::
 We can make up names for the arguments.
 If the function gets only one argument, which we choose to name ``x`` it
 returns ``one arg``. For two arguments named ``x`` and ``y`` it returns
-``two args`` and ``three args `` for three arguments ``x``, ``y``, and ``z``.
+``two args`` and ``three args`` for three arguments ``x``, ``y``, and ``z``.
 The ``&`` catches any number of arguments.
 There it should always be the last pattern.
 For example, moving this ``&`` pattern to the first position:
@@ -170,10 +170,11 @@ results in this being printed::
     3 args
     5 args
 
-The same holds true for a duplicate pattern:
+The same holds true for a duplicated pattern:
 
 .. literalinclude:: code/duplicate_pattern.mochi
    :language: python
+
 prints::
 
     match 1
@@ -183,4 +184,101 @@ prints::
 The pattern ``a, b`` will never be reached because it is the same
 as the pattern ``x, y``.
 
+Patterns can also match types:
+
+.. literalinclude:: code/match_types.mochi
+   :language: python
+
+prints::
+
+    10 abc int str
+    10.5 3 float int
+    a b unknown
+    pvector([1, 2, 3]) pvector
+
+The builtin types ``int``, ``float``, and ``str`` before ``x`` and ``y``
+make the patterns more specific. Only arguments with the specified type
+match. Again, ``&z`` matches everything. Besides the builtin simple types,
+Mochi has other types such as ``PVector`` that is essentially an immutable
+list.
+
+
+You can also match other data types. For example, the Python module
+numbers_ contains the abstract base class ``Number``. You cannot an instance
+of such class but can use it for pattern matching for any kind of number:
+
+.. literalinclude:: code/match_number.mochi
+   :language: python
+
+prints::
+
+    1 number
+    1.5 number
+    a unknown
+
+
+Going Recursive
++++++++++++++++
+
+While recursion is allowed in Python, the number of recursions is limited and
+it is generally not encouraged. Mochi has tail call elimination.
+It allows a functions to call itself without a limit.
+Internally, Mochi translates the recursion into a Python loop.
+
+There is already a built-in function ``sum``. If we want to implement our
+own, we can do this using pattern matching and recursion:
+
+.. literalinclude:: code/recursive_sum.mochi
+   :language: python
+
+Since it is bad practices to override built-in names, we choose ``sum_``
+as the name for our function.
+When we run it with ``$ mochi recursive_sum.mochi`` it prints::
+
+    60.5
+    0
+
+There are two cases. If we get a list with content, we split it
+into the first element and the rest with ``[head, &tail]:``.
+The ``tail`` part can be empty. In this case we add the first element
+``head``  to the sum of the rest with the recursive call ``sum_(tail)``.
+If we get an empty list ``[]`` we return an zero. This is the base case.
+
+This version cannot be called on more than 1000 numbers because it triggers
+the recursion limit. The line ``head + sum_(tail)`` prevents the tail
+call elimination, which circumvents the recursion limit.
+Making some changes that make the recursive function call the only
+expression after a matching pattern allows more recursions:
+
+.. literalinclude:: code/recursive_sum_tail.mochi
+   :language: python
+   :lines: 1-12
+
+The output is::
+
+    60.5
+    0
+    49995000
+
+We introduce and accumulator ``acc`` that carries th temporary sum from
+on function call to the next. This is in contrast to ``head + sum_(tail)``,
+which needs to "come back" after the call to ``sum_()`` to add the result
+to ``head``.
+
+The first case ``[head, &tail]`` matches a call with just a list
+and calls ``sum_`` with ``head`` as first and ``tail`` as second
+argument. The next cases matches this call: ``acc, [head, &tail]``
+because it expects a call with two arguments and a list with at least
+one member. It call itself adding the ``head`` to the accumulator
+``acc``:  ``sum_(head + acc, tail)``. This keeps going until the
+list is empty and the pattern ``acc, []`` matches returning the accumulator
+``acc``. The base case is the same before returning a zero if the
+argument is an empty list ``[]: 0``.
+
+.. note:: Since the pattern ``acc, [head, &tail]: sum_(head + acc, tail)``
+    matches for nearly all recursive calls and the other patterns match only
+    for one call, it makes sense to make this pattern the first one.
+
 .. _IPython Notebook: http://ipython.org/notebook.html
+
+.. _numbers: https://docs.python.org/3.5/library/numbers.html
