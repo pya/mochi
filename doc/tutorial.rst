@@ -279,6 +279,77 @@ argument is an empty list ``[]: 0``.
     matches for nearly all recursive calls and the other patterns match only
     for one call, it makes sense to make this pattern the first one.
 
+
+Example: Calculating the Average of Numbers
++++++++++++++++++++++++++++++++++++++++++++
+
+Let's write function that calculates the average of two numbers::
+
+    >>> def avg(x, y):
+    ...     (x + y)  / 2
+    ...
+
+Calling this function shows the right result::
+
+    >>> avg(2, 3)
+    2.5
+
+Using pattern matching, we can write a function that works for any number
+of arguments::
+
+    >>> def avg:
+    ...     &args: sum(args) / len(args)
+    ...
+
+    >>> avg(2, 3)
+    2.5
+    >>> avg(2, 3, 7)
+    4.0
+
+There is only one problem. Calling this function without arguments causes
+an exception::
+
+    >>> avg()
+    Traceback (most recent call last):
+      ...
+      File "<string>", line 1, in <module>
+      File "<string>", line 2, in avg
+    ZeroDivisionError: division by zero
+
+We can write a function that takes at least two arguments:
+
+    >>> def avg:
+    ...     x, y, &z: (x + y + sum(z)) / (2 + len(z))
+    ...
+
+Calling it with two or more arguments works::
+
+    >>> avg(2, 3)
+    2.5
+    >>> avg(2, 4, 7)
+    4.333333333333333
+
+but calls with one or no argument return ``None``::
+
+    >>> avg(2)
+    >>> avg()
+
+We can fix this by raising a more informative exception:
+
+.. literalinclude:: code/average.mochi
+   :language: python
+
+prints::
+
+    2, 3 2.5
+    2, 3, 7 4.0
+    missing 1 required argument
+    missing 2 required arguments
+
+We cannot use ``raise`` directly in the pattern matching part.
+Therefore, a helper function does the raising. This function can be
+re-used.
+
 .. _IPython Notebook: http://ipython.org/notebook.html
 
 .. _numbers: https://docs.python.org/3.5/library/numbers.html
