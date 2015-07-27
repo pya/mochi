@@ -1,5 +1,6 @@
 Mochi
 ====
+
 Mochi is a dynamically typed programming language for functional programming and actor-style programming.
 
 Its interpreter is written in Python3. The interpreter translates a program written in Mochi to Python3's AST / bytecode.
@@ -16,6 +17,9 @@ Its interpreter is written in Python3. The interpreter translates a program writ
 - Macro, like the traditional macro of Lisp
 - Builtin functions includes functions exported by itertools module, recipes, functools module and operator module
 
+## Mailing List
+
+ https://mail.python.org/mailman/listinfo/mochi
 
 ## Examples
 ### Factorial
@@ -36,7 +40,7 @@ def factorial:
     n: factorial(n, 1)
     0, acc: acc
     n, acc: factorial(n - 1, acc * n)
-    
+
 factorial(10000)
 # => 28462596809170545189064132121198688...
 ```
@@ -415,7 +419,7 @@ match nums([1, 2, 3]):
 
 Positive = predicate(-> $1 > 0)
 Even = predicate(-> $1 % 2 == 0)
-EvenAndPositive = predicate(-> ($1 % 2 == 0) and ($1 >= 0)) 
+EvenAndPositive = predicate(-> ($1 % 2 == 0) and ($1 >= 0))
 
 match 10:
     EvenAndPositive n: str(n) + ':Even and Positive'
@@ -560,7 +564,7 @@ show(1.0, 'msg')
 FileMode = options('r', 'w', 'a', 'r+', 'w+', 'a+')
 
 def open_file:
-    str path, FileMode mode: 
+    str path, FileMode mode:
         open(path, mode)
     str path:
         open(path, 'r')
@@ -593,7 +597,7 @@ pvector(map(-> $1 * 2, [1, 2, 3]))
 # => pvector([2, 4, 6])
 ```
 
-### Pipeline operator 
+### Pipeline operator
 ```python
 add = -> $1 + $2
 2 |> add(10) |> add(12)
@@ -679,7 +683,7 @@ foreach([1, 2, 3]) @ (item) ->
 ```python
 def foo(a, b, c):
     a + b + c
-    
+
 a = 1
 b = 2
 c = 3
@@ -738,10 +742,10 @@ x
 ```python
 module Math:
     export add, sub
-    
+
     def add(x, y):
         x + y
-    
+
     def sub(x, y):
         x - y
 
